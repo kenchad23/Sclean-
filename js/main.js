@@ -2,12 +2,17 @@
 const header = document.getElementById('top');
 const menuButton = document.querySelector('.burger');
 const menu = document.getElementById('menu');
-const updateHeader = () => header.classList.toggle('solid', window.scrollY > 40);
+const updateHeader = () => {
+  const scrolled = window.scrollY > 40;
+  header.classList.toggle('solid', scrolled || header.classList.contains('inner-header'));
+  header.classList.toggle('is-scrolled', scrolled);
+};
 window.addEventListener('scroll', updateHeader, { passive: true });
 updateHeader();
 let previousFocus = null;
 function setMenu(open) {
   menu.classList.toggle('open', open);
+  header.classList.toggle('menu-active', open);
   menu.setAttribute('aria-hidden', String(!open));
   menuButton.setAttribute('aria-expanded', String(open));
   menuButton.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
